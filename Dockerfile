@@ -1,11 +1,11 @@
 # Use the official IPFS image
-FROM ipfs/go-ipfs:latest
+FROM ipfs/kubo:latest
 
-# Optional: Copy custom configuration
+# Optional: Set a default directory for IPFS data
+WORKDIR /ipfs
 
-# Expose IPFS ports
+# Optional: Expose ports for P2P, API, and Gateway
 EXPOSE 4001 5001 8080
 
-# Start IPFS
-ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/start_ipfs"]
-CMD ["daemon", "--migrate=true", "--enable-gc=true"]
+# Optional: Add a command to start the IPFS daemon
+CMD ["ipfs", "daemon", "--enable-mdns", "--enable-relay-http", "--api", "/ip4/0.0.0.0/tcp/5001", "--gateway", "/ip4/0.0.0.0/tcp/8080"]
