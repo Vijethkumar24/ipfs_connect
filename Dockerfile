@@ -17,5 +17,8 @@ RUN apt-get update && \
 # Expose necessary ports
 EXPOSE 5001 8080
 
-# Set entrypoint to start IPFS daemon
-ENTRYPOINT ["/usr/local/bin/ipfs", "daemon", "--api", "/ip4/0.0.0.0/tcp/5001", "--gateway", "/ip4/0.0.0.0/tcp/8080"]
+# Set the IPFS configuration for gateway (using config)
+RUN ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/8080
+
+# Set entrypoint to start IPFS daemon without the `--gateway` flag
+ENTRYPOINT ["/usr/local/bin/ipfs", "daemon", "--api", "/ip4/0.0.0.0/tcp/5001"]
