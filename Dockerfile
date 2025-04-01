@@ -1,3 +1,4 @@
+# Use the ipfs/kubo:latest image as the base
 FROM ipfs/kubo:latest
 
 # Expose necessary ports
@@ -7,7 +8,7 @@ EXPOSE 8080
 EXPOSE 5001
 
 # Create the startup script directly in the Dockerfile
-RUN echo '#!/bin/bash\n\
+RUN echo '#!/bin/sh\n\
     # Initialize IPFS\n\
     ipfs init --profile server\n\
     \n\
@@ -28,4 +29,4 @@ RUN echo '#!/bin/bash\n\
 RUN chmod +x /usr/local/bin/start.sh
 
 # Run the setup script
-CMD ["/bin/bash", "/usr/local/bin/start.sh"]
+CMD ["/bin/sh", "/usr/local/bin/start.sh"]
