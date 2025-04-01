@@ -17,6 +17,9 @@ RUN apt-get update && \
 # Expose necessary ports
 EXPOSE 5001 8080
 
+# Initialize IPFS repository
+RUN ipfs init
+
 # Set the IPFS configuration for gateway (using config)
 RUN ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/8080
 
