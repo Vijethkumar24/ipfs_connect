@@ -1,11 +1,14 @@
-# Use the official IPFS image
+# Use the official IPFS image as the base
 FROM ipfs/go-ipfs:latest
 
-# Optional: Set a default directory for IPFS data
-WORKDIR /data/ipfs
+# Set the working directory
+WORKDIR /ipfs
 
-# Optional: Expose ports for P2P, API, and Gateway
+# Expose the necessary ports for IPFS
 EXPOSE 4001 5001 8080
 
-# Optional: Add a command to start the IPFS daemon
-CMD ["ipfs", "daemon", "--migrate=true"]
+# Optional: Create a directory for persistent IPFS data
+VOLUME /data/ipfs
+
+# Run the IPFS daemon with writable data
+CMD ["ipfs", "daemon", "--writable"]
