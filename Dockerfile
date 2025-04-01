@@ -9,5 +9,5 @@ RUN ipfs init
 # Ensure the /data/ipfs directory is created and owned by root (default user in Docker container)
 RUN mkdir -p /data/ipfs && chown -R root:root /data/ipfs
 
-# Run IPFS daemon as the root user (default)
-CMD ["ipfs", "daemon", "--migrate", "--enable-gc"]
+# Start the IPFS daemon using the correct command for IPFS Kubo container
+CMD ["ipfs-daemon", "--migrate", "--enable-gc"]
