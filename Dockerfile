@@ -2,7 +2,6 @@
 FROM ipfs/go-ipfs:latest
 
 # Optional: Copy custom configuration
-COPY ipfs-config /data/ipfs/config
 
 # Expose IPFS ports
 EXPOSE 4001 5001 8080
