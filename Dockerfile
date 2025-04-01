@@ -10,7 +10,8 @@ RUN addgroup -S ipfs && adduser -S ipfs -G ipfs
 RUN ipfs init
 
 # Ensure the /data/ipfs directory is owned by the 'ipfs' user
-RUN mkdir -p /data/ipfs && chown -R ipfs:ipfs /data/ipfs
+RUN mkdir -p /data/ipfs && \
+    chown -R ipfs:ipfs /data/ipfs
 
 # Switch to the ipfs user to run the IPFS daemon
 USER ipfs
