@@ -28,5 +28,5 @@ RUN echo '#!/bin/sh\n\
 # Make the script executable
 RUN chmod +x /usr/local/bin/start.sh
 
-# Run the setup script
-CMD ["/bin/sh", "/usr/local/bin/start.sh"]
+# Use exec form of CMD to avoid shell-related issues
+CMD ["/usr/local/bin/start.sh"]
