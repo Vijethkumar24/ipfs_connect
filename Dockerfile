@@ -1,4 +1,3 @@
-# Use the ipfs/kubo:latest image as the base
 FROM ipfs/kubo:latest
 
 # Expose necessary ports
@@ -7,26 +6,16 @@ EXPOSE 4001/udp
 EXPOSE 8080
 EXPOSE 5001
 
-# Create the startup script directly in the Dockerfile
-RUN echo '#!/bin/sh\n\
-    # Initialize IPFS\n\
-    ipfs init --profile server\n\
-    \n\
-    # Configure IPFS for public access and CORS\n\
-    ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[\"*\"]"\n\
-    ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "[\"PUT\", \"POST\", \"GET\"]"\n\
-    ipfs config --json API.HTTPHeaders.Access-Control-Allow-Headers "[\"X-Requested-With\", \"Content-Type\", \"Authorization\"]"\n\
-    \n\
-    # Enable gateway and API on all interfaces\n\
-    ipfs config Addresses.API /ip4/0.0.0.0/tcp/5001\n\
-    ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/8080\n\
-    \n\
-    # Start IPFS daemon in the foreground\n\
-    exec ipfs daemon --migrate=true\n'\
-    > /usr/local/bin/start.sh
+# Create a script in the entrypoint directory that IPFS/kubo uses
+RUN echo '#!/bin/sh \n\
+    ipfs init --profile server \n\
+    ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[\"*\"]" \n\
+    ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "[\"PUT\", \"POST\", \"GET\"]" \n\
+    ipfs config --json API.HTTPHeaders.Access-Control-Allow-Headers "[\"X-Requested-With\", \"Content-Type\", \"Authorization\"]" \n\
+    ipfs config Addresses.API /ip4/0.0.0.0/tcp/5001 \n\
+    ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/8080 \n\
+    exec ipfs daemon --migrate=true \n\
+    ' > /container-init.d/001-initialize-ipfs.sh
 
 # Make the script executable
-RUN chmod +x /usr/local/bin/start.sh
-
-# Use exec form of CMD to avoid shell-related issues
-CMD ["/usr/local/bin/start.sh"]
+RUN chmod +x /container-init.d/001-initialize-ipfs.sh
