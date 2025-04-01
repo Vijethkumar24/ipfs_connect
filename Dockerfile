@@ -70,7 +70,6 @@ RUN mkdir /ipfs /ipns \
     && chown ipfs:users /ipfs /ipns
 
 # Expose the fs-repo as a volume
-VOLUME $IPFS_PATH
 
 # Set default logging level
 ENV IPFS_LOGGING ""
