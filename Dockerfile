@@ -1,14 +1,15 @@
-# Use the official IPFS image as the base
-FROM ipfs/go-ipfs:latest
+# Use the official IPFS Kubo image
+FROM ipfs/kubo:v0.34.1
 
-# Set the working directory
-WORKDIR /ipfs
+# Set the environment variables for the paths
+ENV IPFS_STAGING=/export
+ENV IPFS_DATA=/data/ipfs
 
 # Expose the necessary ports for IPFS
-EXPOSE 4001 5001 8080
+EXPOSE 4001 4001/udp 5001 8080
 
-# Optional: Create a directory for persistent IPFS data
-VOLUME /data/ipfs
+# Set up the entrypoint
+ENTRYPOINT ["sh", "-c", "docker-entrypoint.sh"]
 
-# Run the IPFS daemon with writable data
-CMD ["ipfs", "daemon", "--writable"]
+# Start the container with custom volumes for staging and IPFS data
+CMD ["ipfs", "daemon"]
