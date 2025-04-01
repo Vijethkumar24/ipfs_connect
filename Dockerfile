@@ -1,14 +1,15 @@
-# Use the official IPFS Kubo image
-FROM ipfs/kubo:v0.34.1
+FROM ipfs/kubo:latest
 
-# Set environment variables for the IPFS data and staging directories
-ENV IPFS_STAGING=/export
-ENV IPFS_DATA=/data/ipfs
+# Expose necessary ports
+EXPOSE 4001/tcp
+EXPOSE 4001/udp
+EXPOSE 8080
+EXPOSE 5001
 
-# Expose necessary ports for IPFS
-EXPOSE 4001 4001/udp 5001 8080
+# Create a setup script
+COPY start.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/start.sh
 
-# Set up the entrypoint to use the default entrypoint of the image
-ENTRYPOINT ["ipfs", "daemon"]
+# Run the setup script
+ENTRYPOINT ["/usr/local/bin/start.sh"]
 
-# By default, the image uses entrypoint.sh automatically, which handles initialization and starting the IPFS daemon
